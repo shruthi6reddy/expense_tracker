@@ -1,7 +1,7 @@
 from typing import Union
 from fastapi import FastAPI, Depends
 from pydantic import BaseModel
-from interact_db import get_session, Employee, Expenses
+from app.interact_db import get_session, Employee, Expenses
 from sqlalchemy.orm import Session
 
 
@@ -34,8 +34,8 @@ def get_employee_expenses(employee_id: int, session: Session = Depends(get_sessi
     return employee_expenses
 
 @app.get("/all_expenses/")
-def get_all_expenses(session: Session = Depends(get_session), offset:int = 0, limit=100):
-    expenses= session.query(Expenses).offset(offset).limit(limit).all()
+def get_all_expenses(session: Session = Depends(get_session)):
+    expenses= session.query(Expenses).all()
     return expenses 
 
 @app.post("/add_expense/")
@@ -45,3 +45,8 @@ def add_expense(expense: ExpensesCreate, session: Session = Depends(get_session)
     session.commit()
     session.refresh(expense_db)
     return expense
+
+@app.get("/all_employees/")
+def get_all_expenses(session: Session = Depends(get_session)):
+    employee_data= session.query(Employee).all()
+    return employee_data 
