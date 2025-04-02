@@ -16,14 +16,17 @@ class EmployeeData(BaseModel):
     employee_name: str
     employee_email: str
 
-@app.post("/add_employee/")
+class EmployeeResponse(BaseModel):
+    id: int
+
+@app.post("/add_employee/", response_model=EmployeeResponse)
 def add_new_employee(employee: EmployeeData, session: Session = Depends(get_session)):
     employee_db = Employee(**employee.model_dump())   
     # employee is an instance of EmployeeData, which is a Pydantic model. employee.model_dump() allows easier mapping conversion from a Pydantic model to a SQLAlchemy model (Exployee)
     session.add(employee_db)
     session.commit()
     session.refresh(employee_db)
-    return employee
+    return employee_db
    
 @app.get("/employee_expenses/{employee_id}")
 def get_employee_expenses(employee_id: int, session: Session = Depends(get_session)):
