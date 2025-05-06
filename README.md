@@ -28,6 +28,7 @@ A simple application for tracking employee expenses using a corporate card.
    cd backend
 
 2. Create virtual environment:
+    ```bash
     python -m venv venv
     source venv/bin/activate
     pip install -r requirements.txt
