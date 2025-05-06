@@ -1,7 +1,7 @@
 from typing import Union
 from fastapi import FastAPI, Depends
 from pydantic import BaseModel
-from app.interact_db import get_session, Employee, Expenses
+from backend.interact_db import get_session, Employee, Expenses
 from sqlalchemy.orm import Session
 
 
